@@ -1,5 +1,6 @@
-package com.agileengine;
+package com.agileengine.service;
 
+import com.agileengine.domain.ElementDescriptor;
 import com.agileengine.exception.AttributeNotFoundException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attribute;

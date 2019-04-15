@@ -1,4 +1,4 @@
-package com.agileengine;
+package com.agileengine.domain;
 
 import java.util.Map;
 
