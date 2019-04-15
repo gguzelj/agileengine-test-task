@@ -21,12 +21,12 @@ public class InputProcessor {
     private static String CHARSET_NAME = "utf8";
 
 
-    public static ElementDescriptor findAttributes(String targetElementId, String resourcePath) throws AttributeNotFoundException {
-        return new ElementDescriptor(
-            findElementById(new File(resourcePath), targetElementId)
+    public static ElementDescriptor findElementById(String targetElementId, String resourcePath) throws AttributeNotFoundException {
+        return findElementById(new File(resourcePath), targetElementId)
             .map(Node::attributes)
             .map(attribute -> attribute.asList().stream().collect(toMap(Attribute::getKey, Attribute::getValue)))
-            .orElseThrow(() -> new AttributeNotFoundException("No attribute with id" + targetElementId + " was found")));
+            .map(ElementDescriptor::new)
+            .orElseThrow(() -> new AttributeNotFoundException("No attribute with id" + targetElementId + " was found"));
     }
 
     private static Optional<Element> findElementById(File htmlFile, String targetElementId) {
