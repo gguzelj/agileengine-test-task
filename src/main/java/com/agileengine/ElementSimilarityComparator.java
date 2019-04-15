@@ -8,7 +8,9 @@ import java.util.Map;
 public class ElementSimilarityComparator {
 
     /**
-     * First dummy scorer, implemented with a jaccard similarity
+     * First dummy scorer, based in the distance of jaccard (sort of..).
+     * The basic idea is to use the size of the intersection as a measure similarity
+     *
      * @param targetId
      * @param element
      * @return
