@@ -1,40 +1,31 @@
 package com.agileengine.service;
 
+import com.agileengine.domain.ElementBuilder;
 import com.agileengine.domain.ElementDescriptor;
 import com.agileengine.exception.AttributeNotFoundException;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Optional;
+import static java.util.Optional.ofNullable;
 
 public class InputProcessor {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(InputProcessor.class);
-    private static String CHARSET_NAME = "utf8";
+    private static final Logger LOGGER = LoggerFactory.getLogger(InputProcessor.class);
 
+    /**
+     * Return the ElementDescriptor that belongs to the element id
+     *
+     * @param id
+     * @param resourcePath
+     * @return
+     * @throws AttributeNotFoundException
+     */
+    public static ElementDescriptor findElementById(String id, String resourcePath) throws AttributeNotFoundException {
+        LOGGER.info("Searching for element {} within file {}", id, resourcePath);
 
-    public static ElementDescriptor findElementById(String targetElementId, String resourcePath) throws AttributeNotFoundException {
-        return findElementById(new File(resourcePath), targetElementId)
-            .map(ElementDescriptor::new)
-            .orElseThrow(() -> new AttributeNotFoundException("No attribute with id" + targetElementId + " was found"));
+        return ofNullable(DocumentReader.getDocument(resourcePath).getElementById(id))
+            .map(ElementBuilder::newElementDescriptor)
+            .orElseThrow(() -> new AttributeNotFoundException("No attribute with id " + id + " was found"));
     }
 
-    private static Optional<Element> findElementById(File htmlFile, String targetElementId) {
-        try {
-            Document doc = Jsoup.parse(
-                htmlFile,
-                CHARSET_NAME,
-                htmlFile.getAbsolutePath());
-            return Optional.of(doc.getElementById(targetElementId));
-
-        } catch (IOException e) {
-            LOGGER.error("Error reading [{}] file", htmlFile.getAbsolutePath(), e);
-            return Optional.empty();
-        }
-    }
 }
