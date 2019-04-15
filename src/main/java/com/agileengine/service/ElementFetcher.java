@@ -2,10 +2,8 @@ package com.agileengine.service;
 
 import com.agileengine.domain.ElementDescriptor;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +12,6 @@ import java.io.IOException;
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
 
 public class ElementFetcher {
 
@@ -44,8 +41,6 @@ public class ElementFetcher {
             });
 
             return fetchedElements.stream()
-                .map(Node::attributes)
-                .map(elementAttribute -> elementAttribute.asList().stream().collect(toMap(Attribute::getKey, Attribute::getValue)))
                 .map(ElementDescriptor::new)
                 .collect(toList());
         } catch (IOException e) {
