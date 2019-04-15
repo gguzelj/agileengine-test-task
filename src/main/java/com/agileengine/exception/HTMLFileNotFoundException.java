@@ -1,8 +1,8 @@
 package com.agileengine.exception;
 
-public class AttributeNotFoundException extends Exception {
+public class HTMLFileNotFoundException extends RuntimeException {
 
-    public AttributeNotFoundException(String message) {
+    public HTMLFileNotFoundException(String message) {
         super(message);
     }
 
